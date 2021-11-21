@@ -8,11 +8,11 @@ public class Dealership {
     public static int makeCounter = 1;
     private static Dealership instance = null;
 
-    private Dealership(){
+    private Dealership() {
     }
 
-    public static Dealership get(){
-        if(instance == null) instance = new Dealership();
+    public static Dealership get() {
+        if (instance == null) instance = new Dealership();
         return instance;
     }
 
@@ -20,10 +20,12 @@ public class Dealership {
         sellCounter++;
         seller.sellCar();
     }
+
     public void acceptCar() {
         makeCounter++;
         seller.receiveCar();
     }
+
     List<Car> getCars() {
         return cars;
     }

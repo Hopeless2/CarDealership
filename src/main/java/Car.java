@@ -1,5 +1,5 @@
 public class Car {
-    public Car(){
+    public Car() {
 
     }
 }

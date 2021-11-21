@@ -7,7 +7,7 @@ public class Seller {
         this.dealership = dealership;
     }
 
-    public synchronized void sellCar(){
+    public synchronized void sellCar() {
         try {
             System.out.println(Thread.currentThread().getName() + " зашел в автосалон");
             while (dealership.getCars().size() == 0) {
@@ -22,7 +22,7 @@ public class Seller {
         }
     }
 
-    public synchronized void receiveCar(){
+    public synchronized void receiveCar() {
         try {
             System.out.println(Thread.currentThread().getName() + " выпустил 1 авто");
             Thread.sleep(RECEIVE_PROCESS_TIME);
