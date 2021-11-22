@@ -7,7 +7,7 @@ public class Automaker implements Runnable {
         while (Dealership.makeCounter < 10) {
             try {
                 Thread.sleep(MAKE_TIMING);
-                new Thread(null, dealership::acceptCar, "Производитель автомобилей").start();
+                dealership.acceptCar();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

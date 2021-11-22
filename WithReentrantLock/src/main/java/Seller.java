@@ -5,33 +5,31 @@ public class Seller {
     Dealership dealership;
     private static final int SELL_PROCESS_TIME = 1000;
     private static final int RECEIVE_PROCESS_TIME = 1000;
-    ReentrantLock locker;
-    Condition condition;
+    private final Condition condition;
+    private final ReentrantLock locker;
 
-    public Seller(Dealership dealership, ReentrantLock lock) {
+    public Seller(Dealership dealership) {
         this.dealership = dealership;
-        locker = lock;
+        locker = new ReentrantLock(true);
         condition = locker.newCondition();
     }
 
-    public boolean sellCar() {
-        if (locker.tryLock()) {
+    public void sellCar() {
+        try {
             System.out.println(Thread.currentThread().getName() + " зашел в автосалон");
-            try {
-                while (dealership.getCars().size() == 0) {
-                    condition.await();
-                }
-                Thread.sleep(SELL_PROCESS_TIME);
-                dealership.getCars().remove(0);
-                System.out.println(Thread.currentThread().getName() + " !!!!!!поехал домой на новом авто");
-                return false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                locker.unlock();
+            locker.lock();
+            while (dealership.getCars().size() == 0) {
+                System.out.println("Авто нет!");
+                condition.await();
             }
+            Thread.sleep(SELL_PROCESS_TIME);
+            System.out.println(Thread.currentThread().getName() + " поехал домой на новом авто");
+            dealership.getCars().remove(0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            locker.unlock();
         }
-        return true;
     }
 
     public void receiveCar() {
@@ -43,9 +41,8 @@ public class Seller {
             condition.signal();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
+        }finally {
             locker.unlock();
         }
     }
-
 }

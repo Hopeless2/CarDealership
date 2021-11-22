@@ -1,11 +1,18 @@
 public class ReentrantMain {
-    public static void main(String[] args) {
-        Runnable customer = new Customer();
-        Runnable automaker = new Automaker();
+    private static final int BUY_TIMING = 2000;
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(null, new Automaker(), "Производитель авто").start();
 
-        new Thread(customer).start();
-        new Thread(automaker).start();
+        new Thread(null, new Customer(), "Покупатель " + Dealership.sellCounter).start();
+        Thread.sleep(BUY_TIMING);
 
+        new Thread(null, new Customer(), "Покупатель " + Dealership.sellCounter).start();
+        Thread.sleep(BUY_TIMING);
+
+        new Thread(null, new Customer(), "Покупатель " + Dealership.sellCounter).start();
+        Thread.sleep(BUY_TIMING);
+
+        new Thread(null, new Customer(), "Покупатель " + Dealership.sellCounter).start();
     }
 
 }

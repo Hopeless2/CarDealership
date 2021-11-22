@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Dealership {
-    Seller seller = new Seller(this, new ReentrantLock(true));
+    Seller seller = new Seller(this);
     List<Car> cars = new ArrayList<>(10);
     public static int sellCounter = 1;
     public static int makeCounter = 1;
@@ -19,10 +18,7 @@ public class Dealership {
 
     public void sellCar() {
         sellCounter++;
-        boolean isSell = true;
-        while (isSell) {
-            isSell = seller.sellCar();
-        }
+        seller.sellCar();
     }
 
     public void acceptCar() {
