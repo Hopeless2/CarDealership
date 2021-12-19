@@ -1,14 +1,18 @@
 public class Customer implements Runnable {
-    Dealership dealership = Dealership.get();
+    Seller seller;
     private static final int RE_BUY_TIMING = 3000;
+
+    public Customer(Seller seller) {
+        this.seller = seller;
+    }
 
     @Override
     public void run() {
-        while(Dealership.sellCounter < 10){
+        while (seller.getSellCounter() < 10) {
             try {
-                dealership.sellCar();
+                seller.sellCar();
                 Thread.sleep(RE_BUY_TIMING);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
